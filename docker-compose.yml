@@ -1,0 +1,38 @@
+version: '2.0'
+services:
+  config:
+    image: config
+    ports:
+        - "8888:8888"
+    networks:
+        - seted-network
+
+  product:
+    image: product
+    
+    depends_on:
+        - config
+    networks:
+        - seted-network
+
+  discovery:
+    image: discovery
+    ports:
+        - "8761:8761"
+    depends_on:
+        - config
+    networks:
+        - seted-network
+
+  proxy:
+    image: proxy
+    ports:
+        - "9999:9999"
+    depends_on:
+        - config
+    networks:
+        - seted-network
+
+networks:
+  seted-network:
+    driver: bridge
